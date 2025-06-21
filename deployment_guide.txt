@@ -1,0 +1,272 @@
+# 🚀 Guía de Despliegue - Repositorio de Cuestionarios
+
+## ✅ Checklist Pre-Despliegue
+
+Antes de comenzar, asegúrese de tener:
+
+- [ ] Node.js 18+ instalado
+- [ ] Cuenta en GitHub
+- [ ] Cuenta en Netlify (gratuita)
+- [ ] Editor de código (VS Code recomendado)
+
+## 📂 Estructura de Archivos Requerida
+
+Su proyecto debe tener esta estructura exacta:
+
+```
+repositorio-cuestionarios/
+├── public/
+│   └── _redirects                    # ✅ CRÍTICO para routing
+├── src/
+│   ├── pages/
+│   │   ├── HomePage.tsx              # ✅ Página principal
+│   │   ├── FlujoProteccionDatos.tsx  # ✅ Cuestionario básico
+│   │   ├── CuestionarioCEPD.tsx      # ✅ Cuestionario avanzado
+│   │   ├── FormularioCumplimiento.tsx # ✅ Evaluación cumplimiento
+│   │   └── EvaluacionDatosPersonales.tsx # ✅ Análisis técnico
+│   ├── App.tsx                       # ✅ Configuración de rutas
+│   ├── main.tsx                      # ✅ Punto de entrada
+│   └── index.css                     # ✅ Estilos Tailwind
+├── index.html                        # ✅ Archivo HTML base
+├── package.json                      # ✅ Dependencias
+├── tailwind.config.js               # ✅ Configuración Tailwind
+├── netlify.toml                      # ✅ Configuración Netlify
+└── README.md                         # ✅ Documentación
+```
+
+## 🛠️ Paso 1: Configuración Inicial
+
+### 1.1 Crear Proyecto Vite
+
+```bash
+npm create vite@latest repositorio-cuestionarios -- --template react-ts
+cd repositorio-cuestionarios
+```
+
+### 1.2 Instalar Dependencias
+
+```bash
+# Dependencias principales
+npm install react-router-dom lucide-react
+
+# Dependencias de desarrollo
+npm install -D tailwindcss postcss autoprefixer
+```
+
+### 1.3 Configurar Tailwind CSS
+
+```bash
+npx tailwindcss init -p
+```
+
+## 📝 Paso 2: Copiar Archivos del Repositorio
+
+### 2.1 Estructura de Carpetas
+
+```bash
+# Crear carpeta pages
+mkdir src/pages
+```
+
+### 2.2 Archivos a Copiar
+
+1. **Reemplazar archivos existentes:**
+   - `src/App.tsx`
+   - `src/main.tsx`
+   - `src/index.css`
+
+2. **Copiar nuevos archivos:**
+   - `src/pages/HomePage.tsx`
+   - `src/pages/FlujoProteccionDatos.tsx`
+   - `src/pages/CuestionarioCEPD.tsx`
+   - `src/pages/FormularioCumplimiento.tsx`
+   - `src/pages/EvaluacionDatosPersonales.tsx`
+
+3. **Archivos de configuración:**
+   - `tailwind.config.js`
+   - `package.json` (actualizar dependencias)
+
+4. **Archivos para Netlify:**
+   - `public/_redirects`
+   - `netlify.toml`
+
+## 🧪 Paso 3: Pruebas Locales
+
+### 3.1 Ejecutar en Desarrollo
+
+```bash
+npm run dev
+```
+
+### 3.2 Verificar Funcionalidad
+
+✅ **Checklist de Pruebas:**
+
+- [ ] La página principal carga correctamente
+- [ ] Todos los 4 cuestionarios son accesibles
+- [ ] La navegación entre páginas funciona
+- [ ] Los formularios responden a las interacciones
+- [ ] Los estilos se aplican correctamente
+- [ ] No hay errores en la consola del navegador
+
+### 3.3 Construir para Producción
+
+```bash
+npm run build
+```
+
+**Verificar que la carpeta `dist` se genera sin errores.**
+
+## 🌐 Paso 4: Despliegue en Netlify
+
+### Opción A: Conexión con GitHub (Recomendada)
+
+1. **Subir a GitHub:**
+   ```bash
+   git init
+   git add .
+   git commit -m "Initial commit - Repositorio Cuestionarios"
+   git branch -M main
+   git remote add origin https://github.com/tu-usuario/repositorio-cuestionarios.git
+   git push -u origin main
+   ```
+
+2. **Conectar con Netlify:**
+   - Ir a [netlify.com](https://netlify.com)
+   - Click en "New site from Git"
+   - Conectar con GitHub
+   - Seleccionar su repositorio
+   - Configurar:
+     ```
+     Build command: npm run build
+     Publish directory: dist
+     ```
+
+### Opción B: Despliegue Manual
+
+1. **Construir el proyecto:**
+   ```bash
+   npm run build
+   ```
+
+2. **Subir manualmente:**
+   - Ir a [netlify.com](https://netlify.com)
+   - Arrastrar la carpeta `dist` a la zona de despliegue
+
+## 🔧 Paso 5: Configuraciones Post-Despliegue
+
+### 5.1 Verificar el Sitio
+
+✅ **Checklist Post-Despliegue:**
+
+- [ ] El sitio carga en la URL de Netlify
+- [ ] Todas las rutas funcionan (probar navegación directa)
+- [ ] Los cuestionarios son completamente funcionales
+- [ ] El diseño responsive funciona en móvil
+- [ ] No hay errores 404 en assets
+
+### 5.2 Configurar Dominio Personalizado (Opcional)
+
+Si tiene un dominio propio:
+
+1. En Netlify → Site settings → Domain management
+2. Add custom domain
+3. Configurar DNS según las instrucciones
+
+### 5.3 Optimizaciones de Rendimiento
+
+```bash
+# En netlify.toml, ya incluido:
+[build.environment]
+  NODE_VERSION = "18"
+```
+
+## 🐛 Solución de Problemas Comunes
+
+### Error: "Page not found" en rutas
+
+**Solución:** Verificar que el archivo `_redirects` esté en `public/`:
+```
+/*    /index.html   200
+```
+
+### Error: Estilos no se aplican
+
+**Solución:** Verificar `src/index.css`:
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+### Error: Componentes no se encuentran
+
+**Solución:** Verificar imports en `App.tsx`:
+```typescript
+import HomePage from './pages/HomePage';
+import FlujoProteccionDatos from './pages/FlujoProteccionDatos';
+// ... etc
+```
+
+### Error: Build falla
+
+**Solución:** Verificar `package.json` dependencias:
+```json
+{
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.20.1",
+    "lucide-react": "^0.294.0"
+  }
+}
+```
+
+## 📊 Paso 6: Monitoreo y Mantenimiento
+
+### 6.1 Analytics (Opcional)
+
+Agregar Google Analytics o similar en `index.html`.
+
+### 6.2 Actualizaciones
+
+Para actualizar el sitio:
+
+1. **Con GitHub:**
+   ```bash
+   git add .
+   git commit -m "Descripción de cambios"
+   git push
+   ```
+   Netlify redesplegará automáticamente.
+
+2. **Manual:**
+   ```bash
+   npm run build
+   ```
+   Subir nueva carpeta `dist`.
+
+## 🎉 ¡Listo!
+
+Su repositorio de cuestionarios está ahora live y accesible para usuarios.
+
+### URLs de Ejemplo:
+
+- **Página Principal:** `https://tu-sitio.netlify.app/`
+- **Flujo Básico:** `https://tu-sitio.netlify.app/flujo-proteccion-datos`
+- **CEPD Avanzado:** `https://tu-sitio.netlify.app/cuestionario-cepd`
+- **Cumplimiento:** `https://tu-sitio.netlify.app/formulario-cumplimiento`
+- **Análisis Técnico:** `https://tu-sitio.netlify.app/evaluacion-datos-personales`
+
+---
+
+## 📞 Soporte
+
+Si encuentra problemas durante el despliegue:
+
+1. Revisar la consola de Netlify para errores de build
+2. Verificar que todos los archivos estén en su lugar
+3. Comprobar que las rutas en `App.tsx` coincidan con los nombres de archivos
+4. Validar la sintaxis de TypeScript con `npm run build`
+
+**¡Su repositorio de cuestionarios está listo para ayudar a organizaciones a cumplir con la Ley 21.719!**
